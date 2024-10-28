@@ -3,7 +3,7 @@ package models
 import (
 	// "fmt"
 	"net/http"
-
+	"strconv"
 	"github.com/gin-gonic/gin"
 )
 
@@ -115,4 +115,36 @@ func DeleteBook(c *gin.Context){
 		}
 	}
 	c.IndentedJSON(http.StatusOK,gin.H{"msg":"deleted"})
+}
+
+func GetPeople(c *gin.Context){
+	var person []string
+
+	for _,book := range books{
+		person = append(person, book.Person)
+	}
+
+	c.IndentedJSON(http.StatusOK,person)
+
+}
+
+func UpdateTime(c *gin.Context){
+	var param = c.Param("time")
+	time,err := strconv.Atoi(param)
+
+	if err!=nil{
+		return
+	}
+	var updatePerson Individual
+	if err := c.BindJSON(&updatePerson); err!=nil {
+		return
+	}
+
+	for i,book := range books{
+		if book.Person == updatePerson.Person{
+			books[i].Time = time
+		}
+	}
+	c.IndentedJSON(http.StatusOK,gin.H{"msg":"updated time"})
+
 }

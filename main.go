@@ -19,6 +19,8 @@ func main(){
 	router.POST("/add",models.AddBook)
 	router.POST("/update/:person",models.ReturnBook)
 	router.DELETE("/delete/:person",models.DeleteBook)
+	router.GET("/getpeople",models.GetPeople)
+	router.PATCH("/time/:time",models.UpdateTime)
 
 	router.Run("localhost:8080")
 }
